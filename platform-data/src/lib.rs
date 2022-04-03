@@ -15,6 +15,8 @@ pub use converters::{AddrToRaw, RawToAddr};
 pub use flow::Flow;
 pub use hybrid::Hybrid;
 pub use links::{Links, ReadHandler, WriteHandler};
+pub use point::{Iter, Point};
+pub use query::{Query, ToQuery};
 
 pub mod num {
     pub use platform_num::*;
