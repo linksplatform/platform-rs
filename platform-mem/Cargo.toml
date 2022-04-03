@@ -1,0 +1,10 @@
+[package]
+name = "platform-mem"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+memmap2 = "0.5.3"
+tempfile = "3.3.0"
+
+platform-num = { path = "../platform-num", version = "0.1.0" }
