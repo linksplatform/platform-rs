@@ -17,15 +17,3 @@ pub use hybrid::Hybrid;
 pub use links::{Links, ReadHandler, WriteHandler};
 pub use point::{Iter, Point};
 pub use query::{Query, ToQuery};
-
-pub mod num {
-    pub use platform_num::*;
-}
-
-pub mod methods {
-    pub use platform_treesmethods::*;
-}
-
-pub mod mem {
-    pub use platform_mem::*;
-}

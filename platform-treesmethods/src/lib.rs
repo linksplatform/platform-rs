@@ -4,8 +4,8 @@ mod lists;
 mod trees;
 
 pub use lists::{
-    AbsoluteCircularDoublyLinkedList, DoublyLinkedListBase, RelativeCircularDoublyLinkedList,
-    RelativeDoublyLinkedListBase,
+    AbsoluteCircularDoublyLinkedList, AbsoluteDoublyLinkedListBase, DoublyLinkedListBase,
+    RelativeCircularDoublyLinkedList, RelativeDoublyLinkedListBase,
 };
 
 pub use trees::{RecursionlessSizeBalancedTreeMethods, SizeBalancedTreeBase};
