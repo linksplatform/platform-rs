@@ -8,4 +8,6 @@ pub use lists::{
     RelativeCircularDoublyLinkedList, RelativeDoublyLinkedListBase,
 };
 
-pub use trees::{RecursionlessSizeBalancedTreeMethods, SizeBalancedTreeBase};
+pub use trees::{
+    RecursionlessSizeBalancedTreeMethods, SizeBalancedTreeBase, SizeBalancedTreeMethods,
+};
