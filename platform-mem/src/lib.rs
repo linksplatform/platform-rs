@@ -12,7 +12,7 @@ pub use global_mem::GlobalMem;
 pub use mem_traits::{Mem, ResizeableMem};
 pub use temp_file_mem::TempFileMem;
 
-pub(crate) use resizeable_base::ResizeableBase;
+pub use resizeable_base::ResizeableBase;
 
 mod alloc_mem;
 mod file_mapped_mem;
