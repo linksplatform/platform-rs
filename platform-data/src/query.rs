@@ -83,9 +83,9 @@ impl<T: LinkType, const L: usize> ToQuery<T> for [T; L] {
 #[macro_export]
 macro_rules! query {
     () => (
-        $crate::data::Query::new(&[][..])
+        $crate::Query::new(&[][..])
     );
     ($($x:expr),*) => (
-        $crate::data::Query::new(&[$($x),*][..])
+        $crate::Query::new(&[$($x),*][..])
     );
 }
