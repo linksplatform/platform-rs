@@ -23,14 +23,14 @@ jobs:
           wget "$SCRIPTS_BASE_URL/push-rust-cargo.sh"
           wget "$SCRIPTS_BASE_URL/read_rust_package_info.sh"
 
-          sudo ./read_rust_package_info.sh platform-treesmethods
-          sudo ./publish-release.sh
+          bash ./read_rust_package_info.sh platform-treesmethods
+          bash ./publish-release.sh
 
-          sudo ./read_rust_package_info.sh platform-num
-          sudo ./publish-release.sh
+          bash ./read_rust_package_info.sh platform-num
+          bash ./publish-release.sh
 
-          sudo ./read_rust_package_info.sh platform-mem
-          sudo ./publish-release.sh
+          bash ./read_rust_package_info.sh platform-mem
+          bash ./publish-release.sh
 
-          sudo ./read_rust_package_info.sh platform-data
-          sudo ./publish-release.sh
+          bash ./read_rust_package_info.sh platform-data
+          bash ./publish-release.sh
