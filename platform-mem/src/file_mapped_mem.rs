@@ -37,19 +37,8 @@ impl FileMappedMem {
         new.reserve_mem(to_reserve).map(|_| new)
     }
 
-    pub fn reserve_new<P: AsRef<Path>>(path: P, capacity: usize) -> io::Result<Self> {
-        let capacity = max(capacity, ResizeableBase::MINIMUM_CAPACITY);
-        let file = OpenOptions::new()
-            .create(true)
-            .read(true)
-            .write(true)
-            .open(path)?;
-        let mut new = Self::from_file(file)?;
-        new.reserve_mem(capacity).map(|_| new)
-    }
-
-    pub fn new<P: AsRef<Path>>(path: P) -> std::io::Result<Self> {
-        Self::reserve_new(path, ResizeableBase::MINIMUM_CAPACITY)
+    pub fn new(file: File) -> std::io::Result<Self> {
+        Self::from_file(file)
     }
 
     unsafe fn map(&mut self, capacity: usize) -> std::io::Result<NonNull<[u8]>> {
