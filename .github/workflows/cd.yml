@@ -24,13 +24,13 @@ jobs:
           wget "$SCRIPTS_BASE_URL/read_rust_package_info.sh"
 
           bash ./read_rust_package_info.sh platform-treesmethods
-          bash ./publish-release.sh
+          bash ./push-rust-cargo.sh
 
           bash ./read_rust_package_info.sh platform-num
-          bash ./publish-release.sh
+          bash ./push-rust-cargo.sh
 
           bash ./read_rust_package_info.sh platform-mem
-          bash ./publish-release.sh
+          bash ./push-rust-cargo.sh
 
           bash ./read_rust_package_info.sh platform-data
-          bash ./publish-release.sh
+          bash ./push-rust-cargo.sh
