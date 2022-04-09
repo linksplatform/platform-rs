@@ -1,0 +1,36 @@
+name: RustWorkflow
+
+on:
+  push:
+    branches: ["main"]
+
+env:
+  RUST_BACKTRACE: 1
+  CARGO_REGISTRY_TOKEN:  ${{ secrets.CARGO_TOKEN }}
+  SCRIPTS_BASE_URL: https://raw.githubusercontent.com/linksplatform/Scripts/master/MultiProjectRepository
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Publish
+        run: |
+          wget "$SCRIPTS_BASE_URL/push-rust-cargo.sh"
+          wget "$SCRIPTS_BASE_URL/read_rust_package_info.sh"
+
+          ./read_rust_package_info.sh platform-treesmethods
+          ./publish-release.sh
+
+          ./read_rust_package_info.sh platform-num
+          ./publish-release.sh
+
+          ./read_rust_package_info.sh platform-mem
+          ./publish-release.sh
+
+          ./read_rust_package_info.sh platform-data
+          ./publish-release.sh
