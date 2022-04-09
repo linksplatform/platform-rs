@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Rustup nightly
+        run: rustup default nightly
       - name: Publish
         run: |
           wget "$SCRIPTS_BASE_URL/push-rust-cargo.sh"
