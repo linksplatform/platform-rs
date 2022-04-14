@@ -1,9 +1,9 @@
 use std::cmp::max;
-use std::error::Error;
-use std::fs::{File, OpenOptions};
+
+use std::fs::{File};
 use std::io;
 use std::mem::ManuallyDrop;
-use std::path::Path;
+
 use std::ptr::NonNull;
 
 use memmap2::{MmapMut, MmapOptions};

@@ -1,7 +1,7 @@
 use crate::{FileMappedMem, Mem, ResizeableMem};
-use std::fs;
+
 use std::io;
-use std::path::Path;
+
 use std::ptr::NonNull;
 
 pub struct TempFileMem {

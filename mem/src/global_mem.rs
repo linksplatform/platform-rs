@@ -3,7 +3,7 @@ use std::cmp::max;
 use std::ops::Add;
 
 use crate::{Mem, ResizeableBase, ResizeableMem};
-use std::ptr::{null_mut, NonNull};
+use std::ptr::{NonNull};
 use std::{alloc, io, ptr};
 
 pub struct GlobalMem {

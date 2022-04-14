@@ -1,9 +1,9 @@
 use crate::{Mem, ResizeableBase, ResizeableMem};
-use std::alloc::{AllocError, Allocator, Layout, LayoutError};
-use std::default::default;
+use std::alloc::{Allocator, Layout};
+
 use std::error::Error;
 use std::io;
-use std::ptr::{null_mut, NonNull};
+use std::ptr::{NonNull};
 
 pub struct AllocMem<A: Allocator> {
     base: ResizeableBase,

@@ -1,7 +1,7 @@
 use crate::{Mem, ResizeableMem};
 use std::io::Error;
 use std::io::ErrorKind;
-use std::ptr::{null_mut, NonNull};
+use std::ptr::{NonNull};
 
 pub struct ResizeableBase {
     pub used: usize,
