@@ -25,14 +25,14 @@ jobs:
           wget "$SCRIPTS_BASE_URL/push-rust-cargo.sh"
           wget "$SCRIPTS_BASE_URL/read_rust_package_info.sh"
 
-          bash ./read_rust_package_info.sh platform-treesmethods
+          bash ./read_rust_package_info.shtreesmethods
           bash ./push-rust-cargo.sh
 
-          bash ./read_rust_package_info.sh platform-num
+          bash ./read_rust_package_info.shnum
           bash ./push-rust-cargo.sh
 
-          bash ./read_rust_package_info.sh platform-mem
+          bash ./read_rust_package_info.shmem
           bash ./push-rust-cargo.sh
 
-          bash ./read_rust_package_info.sh platform-data
+          bash ./read_rust_package_info.shdata
           bash ./push-rust-cargo.sh

@@ -1,8 +1,8 @@
 [workspace]
 
 members = [
-    "platform-data",
-    "platform-num",
-    "platform-treesmethods",
-    "platform-mem"
+    "data",
+    "num",
+    "treesmethods",
+    "mem"
 ]

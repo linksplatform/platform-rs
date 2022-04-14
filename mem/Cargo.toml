@@ -14,4 +14,4 @@ Memory for linksplatform
 memmap2 = "0.5.3"
 tempfile = "3.3.0"
 
-platform-num = { path = "../platform-num", version = "0.1.0-aplha.0" }
+platform-num = { path = "../num", version = "0.1.0-aplha.0" }
