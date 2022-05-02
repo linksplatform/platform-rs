@@ -1,46 +1,37 @@
-use crate::{FileMappedMem, Mem, ResizeableMem};
+use crate::{FileMappedMem, RawMem};
 
 use std::io;
 
 use std::ptr::NonNull;
 
-pub struct TempFileMem {
-    mem: FileMappedMem,
-}
+#[repr(transparent)]
+pub struct TempFileMem(FileMappedMem);
 
 impl TempFileMem {
     pub fn new() -> io::Result<Self> {
-        let path = tempfile::tempfile()?;
-        Ok(TempFileMem {
-            mem: FileMappedMem::from_file(path)?,
-        })
+        let file = tempfile::tempfile()?;
+        Ok(TempFileMem(FileMappedMem::new(file)?))
     }
 }
 
-impl Mem for TempFileMem {
-    fn get_ptr(&self) -> NonNull<[u8]> {
-        self.mem.get_ptr()
+impl RawMem for TempFileMem {
+    fn ptr(&self) -> NonNull<[u8]> {
+        self.0.ptr()
     }
 
-    fn set_ptr(&mut self, ptr: NonNull<[u8]>) {
-        self.mem.set_ptr(ptr)
-    }
-}
-
-impl ResizeableMem for TempFileMem {
-    fn use_mem(&mut self, capacity: usize) -> io::Result<usize> {
-        self.mem.use_mem(capacity)
+    fn alloc(&mut self, capacity: usize) -> io::Result<NonNull<[u8]>> {
+        self.0.alloc(capacity)
     }
 
-    fn used_mem(&self) -> usize {
-        self.mem.used_mem()
+    fn allocated(&self) -> usize {
+        self.0.allocated()
     }
 
-    fn reserve_mem(&mut self, capacity: usize) -> io::Result<usize> {
-        self.mem.reserve_mem(capacity)
+    fn occupy(&mut self, capacity: usize) -> io::Result<NonNull<[u8]>> {
+        self.0.occupy(capacity)
     }
 
-    fn reserved_mem(&self) -> usize {
-        self.mem.reserved_mem()
+    fn occupied(&self) -> usize {
+        self.0.occupied()
     }
 }

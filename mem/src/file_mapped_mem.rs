@@ -1,40 +1,33 @@
+use crate::base::Base;
+use crate::RawMem;
+use memmap2::{MmapMut, MmapOptions};
 use std::cmp::max;
-
-use std::fs::{File};
+use std::fs::File;
 use std::io;
 use std::mem::ManuallyDrop;
-
 use std::ptr::NonNull;
 
-use memmap2::{MmapMut, MmapOptions};
-
-use crate::{Mem, ResizeableBase, ResizeableMem};
-
 pub struct FileMappedMem {
-    base: ResizeableBase,
+    base: Base,
     pub(in crate) file: File,
     mapping: ManuallyDrop<MmapMut>, // TODO: `MaybeUninit`
 }
 
 impl FileMappedMem {
     pub fn from_file(file: File) -> io::Result<Self> {
-        let capacity = ResizeableBase::MINIMUM_CAPACITY;
+        let capacity = Base::MINIMUM_CAPACITY;
         let mapping = unsafe { MmapOptions::new().map_mut(&file)? };
 
         let len = file.metadata()?.len() as usize;
         let to_reserve = max(len, capacity);
 
         let mut new = Self {
-            base: ResizeableBase {
-                used: 0,
-                reserved: 0,
-                ptr: NonNull::slice_from_raw_parts(NonNull::dangling(), 0),
-            },
+            base: Base::new(NonNull::slice_from_raw_parts(NonNull::dangling(), 0)),
             mapping: ManuallyDrop::new(mapping),
             file,
         };
 
-        new.reserve_mem(to_reserve).map(|_| new)
+        new.alloc(to_reserve).map(|_| new)
     }
 
     pub fn new(file: File) -> std::io::Result<Self> {
@@ -53,27 +46,13 @@ impl FileMappedMem {
     }
 }
 
-impl Mem for FileMappedMem {
-    fn get_ptr(&self) -> NonNull<[u8]> {
-        self.base.get_ptr()
+impl RawMem for FileMappedMem {
+    fn ptr(&self) -> NonNull<[u8]> {
+        self.base.ptr()
     }
 
-    fn set_ptr(&mut self, ptr: NonNull<[u8]>) {
-        self.base.set_ptr(ptr)
-    }
-}
-
-impl ResizeableMem for FileMappedMem {
-    fn use_mem(&mut self, capacity: usize) -> std::io::Result<usize> {
-        self.base.use_mem(capacity)
-    }
-
-    fn used_mem(&self) -> usize {
-        self.base.used_mem()
-    }
-
-    fn reserve_mem(&mut self, capacity: usize) -> std::io::Result<usize> {
-        let reserved = self.base.reserve_mem(capacity)?;
+    fn alloc(&mut self, capacity: usize) -> io::Result<NonNull<[u8]>> {
+        self.base.alloc(capacity)?;
 
         unsafe {
             self.unmap();
@@ -81,22 +60,26 @@ impl ResizeableMem for FileMappedMem {
         // TODO: file.set_len
         //  self.file.set_len(capacity as u64)?;
 
-        // TODO: hack for parody on `self.file.set_len(capacity.max(`file len`))`
-        // self.file.seek(SeekFrom::Start(capacity as u64))?;
-        // self.file.seek(SeekFrom::Start(0))?;
-
         // TODO: current impl
         let file_len = self.file.metadata()?.len();
         self.file.set_len(file_len.max(capacity as u64))?;
 
         let ptr = unsafe { self.map(capacity) }?;
-        self.set_ptr(ptr);
+        self.base.set_ptr(ptr);
 
-        Ok(reserved)
+        Ok(ptr)
     }
 
-    fn reserved_mem(&self) -> usize {
-        self.base.reserved_mem()
+    fn allocated(&self) -> usize {
+        self.base.allocated()
+    }
+
+    fn occupy(&mut self, capacity: usize) -> io::Result<NonNull<[u8]>> {
+        self.base.occupy(capacity)
+    }
+
+    fn occupied(&self) -> usize {
+        self.base.occupied()
     }
 }
 
@@ -105,8 +88,7 @@ impl Drop for FileMappedMem {
         unsafe {
             ManuallyDrop::drop(&mut self.mapping);
         }
-        let used = self.used_mem();
         // TODO: maybe remove `unwrap()` and ignore error
-        self.file.set_len(used as u64);
+        self.file.set_len(self.allocated() as u64);
     }
 }

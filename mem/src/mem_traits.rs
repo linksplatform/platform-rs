@@ -1,16 +1,15 @@
-
-
+use std::io;
 use std::ptr::NonNull;
 
-pub trait Mem {
-    fn get_ptr(&self) -> NonNull<[u8]>;
-    fn set_ptr(&mut self, ptr: NonNull<[u8]>);
-}
+#[deprecated(note = "later use real compile time constant")]
+pub const HOPE_PAGE_SIZE: usize = 8 * 1024;
 
-pub trait ResizeableMem: Mem {
-    fn use_mem(&mut self, capacity: usize) -> std::io::Result<usize>;
-    fn used_mem(&self) -> usize;
+pub trait RawMem /* Manager */ {
+    fn ptr(&self) -> NonNull<[u8]>;
 
-    fn reserve_mem(&mut self, capacity: usize) -> std::io::Result<usize>;
-    fn reserved_mem(&self) -> usize;
+    fn alloc(&mut self, capacity: usize) -> io::Result<NonNull<[u8]>>;
+    fn allocated(&self) -> usize;
+
+    fn occupy(&mut self, capacity: usize) -> io::Result<NonNull<[u8]>>;
+    fn occupied(&self) -> usize;
 }
