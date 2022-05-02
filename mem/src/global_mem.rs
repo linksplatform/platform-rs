@@ -76,11 +76,11 @@ impl RawMem for GlobalMem {
     }
 
     fn occupy(&mut self, capacity: usize) -> io::Result<NonNull<[u8]>> {
-        self.occupy(capacity)
+        self.base.occupy(capacity)
     }
 
     fn occupied(&self) -> usize {
-        self.occupied()
+        self.base.occupied()
     }
 }
 
