@@ -7,7 +7,7 @@ on:
 env:
   RUST_BACKTRACE: 1
   CARGO_REGISTRY_TOKEN:  ${{ secrets.CARGO_TOKEN }}
-  SCRIPTS_BASE_URL: https://raw.githubusercontent.com/linksplatform/Scripts/master/MultiProjectRepository
+  SCRIPTS_BASE_URL: https://raw.githubusercontent.com/linksplatform/Scripts/main/MultiProjectRepository
 
 defaults:
   run:
